@@ -1,0 +1,98 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'realm-android'
+
+android {
+
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration.getAt("androidCompileSdkVersion")
+    buildToolsVersion globalConfiguration.getAt("androidBuildToolsVersion")
+
+    defaultConfig {
+        minSdkVersion globalConfiguration.getAt("androidMinSdkVersion")
+        targetSdkVersion globalConfiguration.getAt("androidTargetSdkVersion")
+        versionCode globalConfiguration.getAt("androidVersionCode")
+        versionName globalConfiguration.getAt("androidVersionName")
+
+        buildConfigField "String", "GIPHY_BASE_URL", "\"http://api.giphy.com/\""
+        buildConfigField "String", "GIPHY_ACCESS_TOKEN", "\"dc6zaTOxFJmzC\""
+    }
+    buildTypes {
+
+        debug {
+            debuggable true
+            minifyEnabled false
+
+            dexOptions {
+                incremental true
+                jumboMode = true
+            }
+        }
+
+        release {
+            debuggable false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+
+    dexOptions {
+        javaMaxHeapSize "2g"
+        preDexLibraries = true
+    }
+
+    lintOptions {
+        abortOnError false
+        checkReleaseBuilds false
+        absolutePaths false
+        checkAllWarnings true
+
+        warning 'InvalidPackage'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+}
+
+dependencies {
+    Map<String, String> dependencies = rootProject.ext.librariesDependencies;
+
+    compile dependencies.appCompat
+
+    compile dependencies.timber
+
+    // Retrofit+Okhttp
+    compile(dependencies.retrofit) {
+        exclude module: 'okhttp'
+    }
+
+    compile dependencies.okhttp
+    compile dependencies.gsonConverter
+    compile dependencies.loggingInterceptor
+    compile dependencies.retrofitAdapterRxJava
+
+    compile dependencies.rxJava
+
+    //Dagger
+    compile dependencies.dagger
+    apt dependencies.daggerCompiler
+    provided dependencies.javaxAnnotation
+
+    // Auto value extensions
+    compile dependencies.autoValue
+    apt dependencies.autoValue
+    apt dependencies.autoValueParcel
+    apt dependencies.autoValueJson
+
+}

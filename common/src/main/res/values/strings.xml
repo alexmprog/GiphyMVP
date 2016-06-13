@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">GiphyMvp</string>
+
+    <string name="title_oops">Oops</string>
+    <string name="title_trending_gifs">No gifs</string>
+    <string name="text_reload">Reload</string>
+    <string name="text_check_again">Check Again</string>
+
+    <string name="text_error_loading_gifs">Something went wrong whilst retrieving the gifs. Please try again&#8230;</string>
+    <string name="text_no_shots">Looks like there\'s no gifs to display here. Try checking again soon&#8230;</string>
+
+    <string name="dialog_loading_title">Loading&#8230;</string>
+    <string name="dialog_loading_gifs">They\'ll be ready soon!</string>
+</resources>
