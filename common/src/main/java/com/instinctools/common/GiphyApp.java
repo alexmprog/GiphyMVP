@@ -3,9 +3,9 @@ package com.instinctools.common;
 import android.app.Application;
 import android.content.Context;
 
-import com.instinctools.common.di.component.ApplicationComponent;
-import com.instinctools.common.di.component.DaggerApplicationComponent;
-import com.instinctools.common.di.module.ApplicationModule;
+import com.instinctools.common.mvp.di.component.ApplicationComponent;
+import com.instinctools.common.mvp.di.component.DaggerApplicationComponent;
+import com.instinctools.common.mvp.di.module.ApplicationModule;
 import com.instinctools.data.di.module.GiphyApiModule;
 import com.instinctools.data.di.module.DataStoreFactoryModule;
 import com.instinctools.data.di.module.PrefsModule;

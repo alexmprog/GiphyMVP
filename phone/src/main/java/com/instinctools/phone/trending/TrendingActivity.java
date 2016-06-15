@@ -13,12 +13,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.instinctools.common.GiphyApp;
-import com.instinctools.common.di.module.ActivityModule;
+import com.instinctools.common.mvp.di.module.ActivityModule;
+import com.instinctools.common.mvp.ui.activity.BaseAppCompatMvpActivity;
 import com.instinctools.common.ui.trending.TrendingPresenter;
 import com.instinctools.common.ui.trending.TrendingView;
 import com.instinctools.data.giphy.model.Gif;
 import com.instinctools.phone.R;
-import com.instinctools.phone.base.BaseActivity;
 import com.instinctools.phone.details.DetailsActivity;
 import com.instinctools.phone.trending.di.DaggerTrendingComponent;
 import com.instinctools.phone.trending.di.TrendingComponent;
@@ -33,7 +33,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TrendingActivity extends BaseActivity<TrendingComponent> implements TrendingView, TrendingAdapter.ClickListener {
+public class TrendingActivity extends BaseAppCompatMvpActivity<TrendingPresenter, TrendingComponent> implements TrendingView, TrendingAdapter.ClickListener {
 
     @Bind(R.id.button_message)
     Button messageButton;
@@ -64,24 +64,19 @@ public class TrendingActivity extends BaseActivity<TrendingComponent> implements
     @Inject
     TrendingAdapter trendingAdapter;
 
-    @Inject
-    TrendingPresenter trendingPresenter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trending);
-
-        getActivityComponent().inject(this);
-
         ButterKnife.bind(this);
-        trendingPresenter.attachView(this);
+
+        getMvpPresenter().attachView(this);
 
         setSupportActionBar(toolbar);
         isTabletLayout = DisplayMetricsUtil.isScreenW(600);
 
         setupViews();
-        trendingPresenter.getTrendingGifs();
+        getMvpPresenter().getTrendingGifs();
     }
 
     private void setupViews() {
@@ -96,7 +91,7 @@ public class TrendingActivity extends BaseActivity<TrendingComponent> implements
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                trendingPresenter.getTrendingGifs();
+                getMvpPresenter().getTrendingGifs();
             }
         });
     }
@@ -122,12 +117,11 @@ public class TrendingActivity extends BaseActivity<TrendingComponent> implements
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
-        trendingPresenter.detachView();
     }
 
     @OnClick(R.id.button_message)
     public void onReloadButtonClick() {
-        trendingPresenter.getTrendingGifs();
+        getMvpPresenter().getTrendingGifs();
     }
 
     @Override
@@ -148,7 +142,7 @@ public class TrendingActivity extends BaseActivity<TrendingComponent> implements
     @Override
     public void showGifs(@NonNull List<Gif> gifs) {
         recyclerGif.setVisibility(View.VISIBLE);
-        trendingAdapter.setGifs(gifs);
+        trendingAdapter.clearAndAddAll(gifs);
     }
 
     @Override
@@ -180,13 +174,18 @@ public class TrendingActivity extends BaseActivity<TrendingComponent> implements
     }
 
     @Override
-    protected TrendingComponent createActivityComponent() {
+    public TrendingComponent createActivityComponent() {
         return DaggerTrendingComponent
                 .builder()
                 .applicationComponent(GiphyApp.get(this).getComponent())
                 .activityModule(new ActivityModule(this))
                 .trendingModule(new TrendingModule())
                 .build();
+    }
+
+    @Override
+    public void inject() {
+        getActivityComponent().inject(this);
     }
 
     @Override

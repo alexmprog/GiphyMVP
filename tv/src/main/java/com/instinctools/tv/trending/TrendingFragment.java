@@ -27,7 +27,6 @@ import com.instinctools.common.ui.trending.TrendingPresenter;
 import com.instinctools.common.ui.trending.TrendingView;
 import com.instinctools.data.giphy.model.Gif;
 import com.instinctools.tv.R;
-import com.instinctools.tv.base.BaseActivity;
 import com.instinctools.tv.details.DetailsActivity;
 
 import java.net.URI;
@@ -150,7 +149,7 @@ public class TrendingFragment extends VerticalGridFragment implements TrendingVi
         public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
             if (item instanceof Gif) {
-                goToGif((Gif) item);
+                trendingPresenter.onGifClicked((Gif) item);
             }
         }
     };

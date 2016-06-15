@@ -1,9 +1,10 @@
-package com.instinctools.common.di.component;
+package com.instinctools.common.mvp.di.component;
 
 import android.app.Application;
 import android.content.Context;
 
-import com.instinctools.common.di.module.ApplicationModule;
+import com.instinctools.common.mvp.di.module.ApplicationModule;
+import com.instinctools.common.mvp.presenter.PresenterHolder;
 import com.instinctools.data.di.module.DataStoreFactoryModule;
 import com.instinctools.data.di.module.GiphyApiModule;
 import com.instinctools.data.di.module.PrefsModule;
@@ -37,6 +38,8 @@ public interface ApplicationComponent {
     RealmManager provideRealmManager();
 
     RealmObjectMapper provideRealmObjectMapper();
+
+    PresenterHolder providesPresenterHolder();
 
     GiphyService provideGiphyService();
 

@@ -2,31 +2,29 @@ package com.instinctools.phone.trending;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.instinctools.common.mvp.recycler.MvpRecyclerHolder;
+import com.instinctools.common.mvp.recycler.MvpRecyclerAdapter;
+import com.instinctools.common.ui.trending.TrendingGifPresenter;
+import com.instinctools.common.ui.trending.TrendingGifView;
 import com.instinctools.data.giphy.model.Gif;
 import com.instinctools.phone.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TrendingAdapter extends RecyclerView.Adapter<TrendingAdapter.TrendingGifViewHolder> {
+public class TrendingAdapter extends MvpRecyclerAdapter<Gif, TrendingGifPresenter, TrendingAdapter.TrendingGifViewHolder> {
 
-    private List<Gif> gifs;
     private ClickListener clickListener;
 
     public TrendingAdapter() {
-        this.gifs = new ArrayList<>();
+        super();
     }
 
     @Override
@@ -37,53 +35,53 @@ public class TrendingAdapter extends RecyclerView.Adapter<TrendingAdapter.Trendi
                 false));
     }
 
+    @NonNull
     @Override
-    public void onBindViewHolder(@NonNull final TrendingGifViewHolder holder, int position) {
-        final Gif gif = gifs.get(position);
-        holder.bindData(gif);
+    protected TrendingGifPresenter createPresenter(@NonNull Gif model) {
+        TrendingGifPresenter trendingGifPresenter = new TrendingGifPresenter();
+        trendingGifPresenter.setModel(model);
+        return trendingGifPresenter;
     }
 
+    @NonNull
     @Override
-    public int getItemCount() {
-        return gifs.size();
-    }
-
-    void setGifs(@NonNull final List<Gif> gifs) {
-        this.gifs.clear();
-        this.gifs.addAll(gifs);
-        notifyDataSetChanged();
+    protected Object getModelId(@NonNull Gif model) {
+        return model.getImageUrl();
     }
 
     public void setClickListener(ClickListener clickListener) {
         this.clickListener = clickListener;
     }
 
-    class TrendingGifViewHolder extends RecyclerView.ViewHolder {
+    class TrendingGifViewHolder extends MvpRecyclerHolder<TrendingGifPresenter> implements TrendingGifView {
 
         @Bind(R.id.item_trending_gif_imageview)
         ImageView imageView;
-
-        Gif gif;
 
         TrendingGifViewHolder(@NonNull final View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
-        void bindData(@NonNull Gif gif) {
-            this.gif = gif;
-
-            Context context = imageView.getContext();
-            String gifUrl = gif.getGifUrl();
-            if (!TextUtils.isEmpty(gifUrl)) {
-                Glide.with(context).load(gifUrl).asGif().into(imageView);
-            } else {
-                Glide.with(context).load(gif.getImageUrl()).centerCrop().into(imageView);
-            }
-        }
-
         @OnClick(R.id.item_trending_gif_imageview)
         void onGifClicked() {
+            presenter.onGifClicked();
+        }
+
+        @Override
+        public void showImage(@NonNull String imageUrl) {
+            Context context = imageView.getContext();
+            Glide.with(context).load(imageUrl).centerCrop().into(imageView);
+        }
+
+        @Override
+        public void showGifImage(@NonNull String imageUrl) {
+            Context context = imageView.getContext();
+            Glide.with(context).load(imageUrl).asGif().into(imageView);
+        }
+
+        @Override
+        public void goToGifDetails(@NonNull Gif gif) {
             if (clickListener != null) {
                 clickListener.onGifClick(gif);
             }

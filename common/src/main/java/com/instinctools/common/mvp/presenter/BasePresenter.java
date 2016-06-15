@@ -1,25 +1,34 @@
-package com.instinctools.common.ui.base;
+package com.instinctools.common.mvp.presenter;
+
+import com.instinctools.common.mvp.view.MvpView;
+
+import java.lang.ref.WeakReference;
 
 public class BasePresenter<T extends MvpView> implements MvpPresenter<T> {
 
-    private T mMvpView;
+    private WeakReference<T> mvpView;
 
     @Override
     public void attachView(T mvpView) {
-        mMvpView = mvpView;
+        this.mvpView = new WeakReference<>(mvpView);
     }
 
     @Override
     public void detachView() {
-        mMvpView = null;
+        if (mvpView != null) {
+            mvpView.clear();
+        }
     }
 
     public boolean isViewAttached() {
-        return mMvpView != null;
+        return mvpView != null && mvpView.get() != null;
     }
 
     public T getMvpView() {
-        return mMvpView;
+        if (mvpView != null) {
+            return mvpView.get();
+        }
+        return null;
     }
 
     public void checkViewAttached() {

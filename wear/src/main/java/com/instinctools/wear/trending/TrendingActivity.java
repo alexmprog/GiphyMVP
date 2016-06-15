@@ -11,12 +11,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.instinctools.common.GiphyApp;
-import com.instinctools.common.di.module.ActivityModule;
+import com.instinctools.common.mvp.di.module.ActivityModule;
+import com.instinctools.common.mvp.ui.activity.BaseMvpActivity;
 import com.instinctools.common.ui.trending.TrendingPresenter;
 import com.instinctools.common.ui.trending.TrendingView;
 import com.instinctools.data.giphy.model.Gif;
 import com.instinctools.wear.R;
-import com.instinctools.wear.base.BaseActivity;
 import com.instinctools.wear.details.DetailsActivity;
 import com.instinctools.wear.trending.di.DaggerTrendingComponent;
 import com.instinctools.wear.trending.di.TrendingComponent;
@@ -30,7 +30,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TrendingActivity extends BaseActivity<TrendingComponent> implements TrendingView, TrendingAdapter.ClickListener {
+public class TrendingActivity extends BaseMvpActivity<TrendingPresenter, TrendingComponent> implements TrendingView, TrendingAdapter.ClickListener {
 
     @Bind(R.id.pager_shots)
     GridViewPager trendingPager;
@@ -46,9 +46,6 @@ public class TrendingActivity extends BaseActivity<TrendingComponent> implements
     ImageView errorImage;
 
     @Inject
-    TrendingPresenter trendingPresenter;
-
-    @Inject
     TrendingAdapter trendingAdapter;
 
     @Override
@@ -56,10 +53,8 @@ public class TrendingActivity extends BaseActivity<TrendingComponent> implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trending);
 
-        getActivityComponent().inject(this);
-
         ButterKnife.bind(this);
-        trendingPresenter.attachView(this);
+        getMvpPresenter().attachView(this);
 
         trendingPager.setAdapter(trendingAdapter);
         trendingAdapter.setClickListener(this);
@@ -67,7 +62,7 @@ public class TrendingActivity extends BaseActivity<TrendingComponent> implements
         pageIndicator.setDotColor(ContextCompat.getColor(this, R.color.colorPrimary));
         pageIndicator.setDotColorSelected(ContextCompat.getColor(this, R.color.colorAccent));
         pageIndicator.setDotRadius(4);
-        trendingPresenter.getTrendingGifs();
+        getMvpPresenter().getTrendingGifs();
     }
 
     @Override
@@ -101,16 +96,27 @@ public class TrendingActivity extends BaseActivity<TrendingComponent> implements
 
     @OnClick(R.id.layout_error)
     public void onErrorLayoutClick() {
-        trendingPresenter.getTrendingGifs();
+        getMvpPresenter().getTrendingGifs();
     }
 
     @Override
-    protected TrendingComponent createActivityComponent() {
+    protected void onDestroy() {
+        super.onDestroy();
+        ButterKnife.unbind(this);
+    }
+
+    @Override
+    public TrendingComponent createActivityComponent() {
         return DaggerTrendingComponent.builder()
                 .applicationComponent(GiphyApp.get(this).getComponent())
                 .activityModule(new ActivityModule(this))
                 .trendingModule(new TrendingModule())
                 .build();
+    }
+
+    @Override
+    public void inject() {
+        getActivityComponent().inject(this);
     }
 
     @Override
@@ -125,6 +131,6 @@ public class TrendingActivity extends BaseActivity<TrendingComponent> implements
 
     @Override
     public void onGifClick(Gif gif) {
-        goToGif(gif);
+        getMvpPresenter().onGifClicked(gif);
     }
 }

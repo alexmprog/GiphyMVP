@@ -1,4 +1,6 @@
-package com.instinctools.common.ui.base;
+package com.instinctools.common.mvp.presenter;
+
+import com.instinctools.common.mvp.view.MvpView;
 
 public interface MvpPresenter<V extends MvpView> {
 

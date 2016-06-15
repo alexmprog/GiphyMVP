@@ -1,9 +1,9 @@
 package com.instinctools.wear.trending.di;
 
-import com.instinctools.common.di.component.ActivityComponent;
-import com.instinctools.common.di.component.ApplicationComponent;
-import com.instinctools.common.di.module.ActivityModule;
-import com.instinctools.common.di.scope.ActivityScope;
+import com.instinctools.common.mvp.di.component.ActivityComponent;
+import com.instinctools.common.mvp.di.component.ApplicationComponent;
+import com.instinctools.common.mvp.di.module.ActivityModule;
+import com.instinctools.common.mvp.di.scope.ActivityScope;
 import com.instinctools.common.ui.trending.TrendingPresenter;
 import com.instinctools.wear.trending.TrendingActivity;
 

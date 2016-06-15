@@ -1,7 +1,11 @@
-package com.instinctools.common.di.module;
+package com.instinctools.common.mvp.di.module;
 
 import android.app.Application;
 import android.content.Context;
+
+import com.instinctools.common.mvp.presenter.PresenterHolder;
+
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -16,12 +20,18 @@ public class ApplicationModule {
     }
 
     @Provides
-    Application provideApplication() {
+    public Application providesApplication() {
         return mApplication;
     }
 
     @Provides
-    Context provideContext() {
+    @Singleton
+    public PresenterHolder providesPresenterHolder() {
+        return new PresenterHolder(60 * 1000);
+    }
+
+    @Provides
+    public Context providesContext() {
         return mApplication;
     }
 

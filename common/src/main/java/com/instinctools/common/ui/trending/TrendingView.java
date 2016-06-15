@@ -2,7 +2,7 @@ package com.instinctools.common.ui.trending;
 
 import android.support.annotation.NonNull;
 
-import com.instinctools.common.ui.base.MvpView;
+import com.instinctools.common.mvp.view.MvpView;
 import com.instinctools.data.giphy.model.Gif;
 
 import java.util.List;

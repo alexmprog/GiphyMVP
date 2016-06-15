@@ -1,6 +1,8 @@
 package com.instinctools.common.ui.trending;
 
-import com.instinctools.common.ui.base.BasePresenter;
+import android.support.annotation.NonNull;
+
+import com.instinctools.common.mvp.presenter.BasePresenter;
 import com.instinctools.data.giphy.model.Gif;
 import com.instinctools.domain.usecase.gif.GetTrendingGifsUseCase;
 
@@ -13,7 +15,7 @@ import timber.log.Timber;
 public class TrendingPresenter extends BasePresenter<TrendingView> {
 
     private GetTrendingGifsUseCase getTrendingGifsUseCase;
-    private Subscription mSubscription;
+    private Subscription subscription;
 
     public TrendingPresenter(GetTrendingGifsUseCase getTrendingGifsUseCase) {
         this.getTrendingGifsUseCase = getTrendingGifsUseCase;
@@ -22,9 +24,13 @@ public class TrendingPresenter extends BasePresenter<TrendingView> {
     @Override
     public void detachView() {
         super.detachView();
-        if (mSubscription != null) {
-            mSubscription.unsubscribe();
+        if (subscription != null) {
+            subscription.unsubscribe();
         }
+    }
+
+    public void onGifClicked(@NonNull Gif gif) {
+        getMvpView().goToGif(gif);
     }
 
     public void getTrendingGifs() {
@@ -32,7 +38,7 @@ public class TrendingPresenter extends BasePresenter<TrendingView> {
         getMvpView().showMessageLayout(false);
         getMvpView().showProgress();
 
-        mSubscription = getTrendingGifsUseCase.perform().subscribe(new Action1<List<Gif>>() {
+        subscription = getTrendingGifsUseCase.perform().subscribe(new Action1<List<Gif>>() {
             @Override
             public void call(List<Gif> gifList) {
                 getMvpView().hideProgress();

@@ -67,6 +67,8 @@ dependencies {
 
     Map<String, String> dependencies = rootProject.ext.librariesDependencies;
 
+    compile dependencies.recyclerView
+
     // Dagger
     apt dependencies.daggerCompiler
     provided dependencies.javaxAnnotation
