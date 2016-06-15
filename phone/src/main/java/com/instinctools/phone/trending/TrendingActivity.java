@@ -140,7 +140,7 @@ public class TrendingActivity extends BaseAppCompatMvpActivity<TrendingPresenter
     }
 
     @Override
-    public void showGifs(@NonNull List<Gif> gifs) {
+    public void showData(@NonNull List<Gif> gifs) {
         recyclerGif.setVisibility(View.VISIBLE);
         trendingAdapter.clearAndAddAll(gifs);
     }

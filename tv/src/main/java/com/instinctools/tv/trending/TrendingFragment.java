@@ -185,7 +185,7 @@ public class TrendingFragment extends VerticalGridFragment implements TrendingVi
     }
 
     @Override
-    public void showGifs(@NonNull List<Gif> gifs) {
+    public void showData(@NonNull List<Gif> gifs) {
         trendingAdapter.addAll(0, gifs);
     }
 

@@ -43,7 +43,7 @@ public class TrendingPresenter extends BasePresenter<TrendingView> {
             public void call(List<Gif> gifList) {
                 getMvpView().hideProgress();
                 if (!gifList.isEmpty()) {
-                    getMvpView().showGifs(gifList);
+                    getMvpView().showData(gifList);
                 } else {
                     getMvpView().showEmpty();
                 }

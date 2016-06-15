@@ -13,7 +13,7 @@ public interface TrendingView extends MvpView {
 
     void hideProgress();
 
-    void showGifs(@NonNull List<Gif> gifs);
+    void showData(@NonNull List<Gif> gifs);
 
     void showError();
 

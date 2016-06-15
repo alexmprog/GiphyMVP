@@ -120,7 +120,7 @@ public class TrendingActivity extends BaseMvpActivity<TrendingPresenter, Trendin
     }
 
     @Override
-    public void showGifs(@NonNull List<Gif> gifs) {
+    public void showData(@NonNull List<Gif> gifs) {
         trendingAdapter.setGifs(gifs);
     }
 
