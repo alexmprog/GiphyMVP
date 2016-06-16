@@ -6,7 +6,6 @@ import android.widget.FrameLayout;
 import com.instinctools.common.GiphyApp;
 import com.instinctools.common.mvp.di.module.ActivityModule;
 import com.instinctools.common.mvp.ui.activity.BaseMvpActivity;
-import com.instinctools.common.ui.trending.TrendingPresenter;
 import com.instinctools.tv.R;
 import com.instinctools.tv.trending.di.DaggerTrendingComponent;
 import com.instinctools.tv.trending.di.TrendingComponent;
@@ -15,7 +14,7 @@ import com.instinctools.tv.trending.di.TrendingModule;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class TrendingActivity extends BaseMvpActivity<TrendingPresenter, TrendingComponent> {
+public class TrendingActivity extends BaseMvpActivity<BaseTrendingView, BaseTrendingPresenter, TrendingComponent> implements BaseTrendingView {
 
     @Bind(R.id.frame_container)
     FrameLayout fragmentContainer;
@@ -25,17 +24,12 @@ public class TrendingActivity extends BaseMvpActivity<TrendingPresenter, Trendin
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trending);
         ButterKnife.bind(this);
-        showTrendingFragment();
+        getMvpPresenter().attachView(this);
     }
 
     @Override
     public boolean onSearchRequested() {
         return true;
-    }
-
-    public void showTrendingFragment() {
-        getFragmentManager().beginTransaction()
-                .replace(fragmentContainer.getId(), TrendingFragment.newInstance()).commit();
     }
 
     @Override
@@ -50,5 +44,11 @@ public class TrendingActivity extends BaseMvpActivity<TrendingPresenter, Trendin
     @Override
     public void inject() {
         getActivityComponent().inject(this);
+    }
+
+    @Override
+    public void showTrendingView() {
+        getFragmentManager().beginTransaction()
+                .replace(fragmentContainer.getId(), TrendingFragment.newInstance()).commit();
     }
 }

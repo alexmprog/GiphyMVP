@@ -2,6 +2,7 @@ package com.instinctools.tv.trending.di;
 
 import com.instinctools.common.ui.trending.TrendingPresenter;
 import com.instinctools.domain.usecase.gif.GetTrendingGifsUseCase;
+import com.instinctools.tv.trending.BaseTrendingPresenter;
 import com.instinctools.tv.trending.TrendingAdapter;
 
 import dagger.Module;
@@ -14,6 +15,12 @@ public class TrendingModule {
     public TrendingPresenter provideTrendingPresenter(GetTrendingGifsUseCase getTrendingGifsUseCase) {
         return new TrendingPresenter(getTrendingGifsUseCase);
     }
+
+    @Provides
+    public BaseTrendingPresenter provideBaseTrendingPresenter() {
+        return new BaseTrendingPresenter();
+    }
+
 
     @Provides
     public TrendingAdapter provideTrendingAdapter() {

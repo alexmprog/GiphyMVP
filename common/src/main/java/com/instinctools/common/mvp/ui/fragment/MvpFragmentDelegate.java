@@ -1,4 +1,4 @@
-package com.instinctools.common.mvp.ui.activity;
+package com.instinctools.common.mvp.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,7 +11,7 @@ import javax.inject.Inject;
 
 import dagger.Lazy;
 
-public class MvpActivityDelegate<V extends MvpView, P extends MvpPresenter<V>> {
+public class MvpFragmentDelegate<V extends MvpView, P extends MvpPresenter<V>> {
 
     @Inject
     protected PresenterHolder presenterHolder;
@@ -22,7 +22,7 @@ public class MvpActivityDelegate<V extends MvpView, P extends MvpPresenter<V>> {
     private P mvpPresenter;
 
     @Inject
-    public MvpActivityDelegate() {
+    public MvpFragmentDelegate() {
     }
 
     public void initPresenter(@Nullable Bundle savedInstanceState) {

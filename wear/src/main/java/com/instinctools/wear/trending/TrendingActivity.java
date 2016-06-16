@@ -30,7 +30,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TrendingActivity extends BaseMvpActivity<TrendingPresenter, TrendingComponent> implements TrendingView, TrendingAdapter.ClickListener {
+public class TrendingActivity extends BaseMvpActivity<TrendingView, TrendingPresenter, TrendingComponent> implements TrendingView, TrendingAdapter.ClickListener {
 
     @Bind(R.id.pager_shots)
     GridViewPager trendingPager;

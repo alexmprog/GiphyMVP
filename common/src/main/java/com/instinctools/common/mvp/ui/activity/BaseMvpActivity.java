@@ -6,13 +6,14 @@ import android.support.annotation.Nullable;
 
 import com.instinctools.common.mvp.di.component.ActivityComponent;
 import com.instinctools.common.mvp.presenter.MvpPresenter;
+import com.instinctools.common.mvp.view.MvpView;
 
 import javax.inject.Inject;
 
-public abstract class BaseMvpActivity<P extends MvpPresenter<?>, T extends ActivityComponent> extends Activity implements ActivityComponent.Creator<T> {
+public abstract class BaseMvpActivity<V extends MvpView, P extends MvpPresenter<V>, T extends ActivityComponent> extends Activity implements ActivityComponent.Injector<T> {
 
     @Inject
-    protected MvpActivityDelegate<P, T> activityDelegate;
+    protected MvpActivityDelegate<V, P> activityDelegate;
 
     private T activityComponent;
 

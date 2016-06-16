@@ -15,7 +15,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.instinctools.common.GiphyApp;
 import com.instinctools.common.mvp.di.module.ActivityModule;
-import com.instinctools.common.mvp.ui.activity.BaseAppCompatMvpActivity;
+import com.instinctools.common.mvp.ui.activity.BaseMvpAppCompatActivity;
 import com.instinctools.common.ui.details.DetailsPresenter;
 import com.instinctools.common.ui.details.DetailsView;
 import com.instinctools.data.giphy.model.Gif;
@@ -27,7 +27,7 @@ import com.instinctools.phone.details.di.DetailsModule;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class DetailsActivity extends BaseAppCompatMvpActivity<DetailsPresenter, DetailsComponent> implements DetailsView {
+public class DetailsActivity extends BaseMvpAppCompatActivity<DetailsView, DetailsPresenter, DetailsComponent> implements DetailsView {
 
     public static final String EXTRA_GIF = "com.instinctools.phone.details.EXTRA_GIF";
 

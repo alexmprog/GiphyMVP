@@ -27,7 +27,7 @@ import com.instinctools.tv.details.di.DetailsModule;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class DetailsActivity extends BaseMvpActivity<DetailsPresenter, DetailsComponent> implements DetailsView {
+public class DetailsActivity extends BaseMvpActivity<DetailsView, DetailsPresenter, DetailsComponent> implements DetailsView {
 
     public static final String EXTRA_GIF = "com.instinctools.tv.details.EXTRA_GIF";
 

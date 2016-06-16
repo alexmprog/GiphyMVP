@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.instinctools.common.GiphyApp;
 import com.instinctools.common.mvp.di.module.ActivityModule;
-import com.instinctools.common.mvp.ui.activity.BaseAppCompatMvpActivity;
+import com.instinctools.common.mvp.ui.activity.BaseMvpAppCompatActivity;
 import com.instinctools.common.ui.trending.TrendingPresenter;
 import com.instinctools.common.ui.trending.TrendingView;
 import com.instinctools.data.giphy.model.Gif;
@@ -33,7 +33,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TrendingActivity extends BaseAppCompatMvpActivity<TrendingPresenter, TrendingComponent> implements TrendingView, TrendingAdapter.ClickListener {
+public class TrendingActivity extends BaseMvpAppCompatActivity<TrendingView, TrendingPresenter, TrendingComponent> implements TrendingView, TrendingAdapter.ClickListener {
 
     @Bind(R.id.button_message)
     Button messageButton;
